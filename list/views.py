@@ -9,9 +9,9 @@ from list.models import Tag, Task
 
 def toggle_task_status(request, pk):
     task = Task.objects.get(pk=pk)
-    task.is_done = not task.is_done
+    task.boolean_field = not task.boolean_field
     task.save()
-    return redirect(reverse_lazy("task-list"))
+    return redirect(reverse_lazy("list:task-list"))
 
 
 class TaskListView(generic.ListView):
@@ -24,20 +24,20 @@ class TaskListView(generic.ListView):
 class TaskCreateView(generic.CreateView):
     model = Task
     form_class = TaskForm
-    success_url = reverse_lazy("list")
+    success_url = reverse_lazy("list:task-list")
     template_name = "list/task_form.html"
 
 
 class TaskUpdateView(generic.UpdateView):
     model = Task
     form_class = TaskForm
-    success_url = reverse_lazy("list")
+    success_url = reverse_lazy("list:task-list")
     template_name = "list/task_form.html"
 
 
 class TaskDeleteView(generic.DeleteView):
     model = Task
-    success_url = reverse_lazy("list")
+    success_url = reverse_lazy("list:task-list")
     template_name = "list/task_confirm_delete.html"
 
 
@@ -51,18 +51,18 @@ class TagsListView(generic.ListView):
 class TagsCreateView(generic.CreateView):
     model = Tag
     fields = "__all__"
-    success_url = reverse_lazy("tags-list")
+    success_url = reverse_lazy("list:tags-list")
     template_name = "list/tag_form.html"
 
 
 class TagsUpdateView(generic.UpdateView):
     model = Tag
     fields = "__all__"
-    success_url = reverse_lazy("tags-list")
+    success_url = reverse_lazy("list:tags-list")
     template_name = "list/tag_form.html"
 
 
 class TagsDeleteView(generic.DeleteView):
     model = Tag
-    success_url = reverse_lazy("tags-list")
+    success_url = reverse_lazy("list:tags-list")
     template_name = "list/tag_confirm_delete.html"
