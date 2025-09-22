@@ -1,3 +1,4 @@
+import self
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views import generic
@@ -7,11 +8,18 @@ from list.forms import TaskForm
 from list.models import Tag, Task
 
 
-def toggle_task_status(request, pk):
-    task = Task.objects.get(pk=pk)
-    task.boolean_field = not task.boolean_field
-    task.save()
-    return redirect(reverse_lazy("list:task-list"))
+class ToggleTaskStatusView(generic.UpdateView):
+    model = Task
+    fields = "__all__"
+
+    def post(self, request, *args, **kwargs):
+        task = self.get_object()
+        task.boolean_field = not task.boolean_field
+        task.save()
+        return redirect(self.get_success_url())
+
+    def get_success_url(self):
+        return reverse_lazy("list:task-list")
 
 
 class TaskListView(generic.ListView):
