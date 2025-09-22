@@ -10,7 +10,7 @@ from list.models import Tag, Task
 
 class ToggleTaskStatusView(generic.UpdateView):
     model = Task
-    fields = "__all__"
+    fields = []
 
     def post(self, request, *args, **kwargs):
         task = self.get_object()
