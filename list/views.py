@@ -1,6 +1,8 @@
 from django.http import HttpResponse
 from django.shortcuts import render
-from django.views.generic import ListView
+from django.urls import reverse_lazy
+from django.views import generic
+from django.views.generic import ListView, CreateView
 
 from list.models import Tag, Task
 
@@ -14,12 +16,31 @@ def index(request) -> HttpResponse:
     return render(request, "list/index.html", context=context)
 
 
-class TaskListView(ListView):
+class TaskListView(generic.ListView):
     model = Task
     context_object_name = "tasks"
     paginate_by = 10
 
-class TagsListView(ListView):
+
+class TaskCreateView(generic.CreateView):
+    model = Task
+    fields = "__all__"
+    success_url = reverse_lazy("list")
+
+
+class TaskUpdateView(generic.UpdateView):
+    model = Task
+    fields = "__all__"
+    success_url = reverse_lazy("list")
+
+
+class TaskDeleteView(generic.DeleteView):
+    model = Task
+    fields = "__all__"
+    success_url = reverse_lazy("list")
+
+
+class TagsListView(generic.ListView):
     model = Tag
     context_object_name = "tags"
     paginate_by = 10
