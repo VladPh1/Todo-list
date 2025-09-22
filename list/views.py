@@ -46,3 +46,20 @@ class TagsListView(generic.ListView):
     paginate_by = 10
     template_name = "list/tags_list.html"
 
+
+class TagsCreateView(generic.CreateView):
+    model = Tag
+    fields = "__all__"
+    success_url = reverse_lazy("list")
+
+
+class TagsUpdateView(generic.UpdateView):
+    model = Tag
+    fields = "__all__"
+    success_url = reverse_lazy("list")
+
+
+class TagsDeleteView(generic.DeleteView):
+    model = Tag
+    fields = "__all__"
+    success_url = reverse_lazy("list")
