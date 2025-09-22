@@ -10,7 +10,7 @@ TaskListView,
 TaskCreateView,
 TaskUpdateView,
 TaskDeleteView,
-toggle_task_status
+ToggleTaskStatusView
 )
 
 urlpatterns = [
@@ -22,7 +22,7 @@ urlpatterns = [
     path("tags/create/", TagsCreateView.as_view(), name="tags-create"),
     path("tags/<int:pk>/update/", TagsUpdateView.as_view(), name="tags-update"),
     path("tags/<int:pk>/delete/", TagsDeleteView.as_view(), name="tags-delete"),
-    path("task/<int:pk>/toggle-status/", toggle_task_status, name="task-toggle-status"),
+    path("task/<int:pk>/toggle-status/", ToggleTaskStatusView.as_view(), name="task-toggle-status"),
 ]
 
 app_name = "list"
