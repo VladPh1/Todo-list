@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="container">
+        <h1 class="my-4 text-center">To Do List</h1>
+        <div class="d-flex justify-content-end mb-3">
+            <a href="{% url 'list:task-create' %}" class="btn btn-primary float-right">
+                Add Task
+            </a>
+        </div>
+
+        {% if tasks %}
+            <ul class="list-group">
+                {% for task in tasks %}
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                        <div>
+                            <strong>{{ task.content }}</strong>
+                            <br>
+                            <small class="text-muted">
+                                Created: {{ task.datetime|date:"F j, Y, P" }}
+                                {% if task.optional_deadline_datetime %}
+                                    <br>Deadline: {{ task.optional_deadline_datetime|date:"F j, Y, P" }}
+                                {% endif %}
+                                <br>Tags:
+                                {% for tag in task.tags.all %}
+                                    <span>{{ tag.name }}</span>
+                                {% empty %}
+                                    <span>No tags</span>
+                                {% endfor %}
+                                <a href="{% url 'list:task-update' pk=task.pk %}" class="btn btn-info btn-sm ms-2">Update</a>
+                                <a href="{% url 'list:task-delete' pk=task.pk %}" class="btn btn-danger btn-sm">Delete</a>
+                            </small>
+                        </div>
+                        <div class="btn-group" role="group">
+                            {% if not task.boolean_field %}
+                                <a href="{% url 'list:task-toggle-status' pk=task.pk %}" class="btn btn-success btn-sm">Complete</a>
+                            {% else %}
+                                <a href="{% url 'list:task-toggle-status' pk=task.pk %}" class="btn btn-warning btn-sm">Undo</a>
+                            {% endif %}
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p class="text-center text-muted">No tasks found. Start by adding one!</p>
+        {% endif %}
+    </div>
+{% endblock %}
